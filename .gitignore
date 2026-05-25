@@ -1,9 +1,9 @@
 # Frontend
-frontend/node_modules/
-frontend/dist/
+sthing-front/node_modules/
+sthing-front/dist/
 
 # Backend
-backend/src/main/resources/application-secret.yml
+sthing-back/src/main/resources/application-secret.yml
 
 # IDE
 .idea/
