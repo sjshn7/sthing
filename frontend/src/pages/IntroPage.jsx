@@ -32,13 +32,13 @@ export default function IntroPage() {
           >
             기묘한 이야기<br />성격 테스트
           </h2>
-          <p className="text-gray-500 text-sm tracking-wider mt-3">
-            24문항으로 알아보는 나의 캐릭터
+          <p className="text-gray-400 text-sm tracking-wider mt-3">
+            20문항으로 알아보는 나의 캐릭터
           </p>
         </div>
 
         {/* 참여자 수 */}
-        <p className="text-gray-600 text-sm mb-8 -translate-y-[20px]">
+        <p className="text-gray-400 text-sm mb-8 -translate-y-[20px]">
           <span className="text-[#e90101] font-medium">12,847</span>명이 이미 참여했어요
         </p>
 
