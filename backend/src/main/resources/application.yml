@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: backend
+
+  profiles:
+    active: local
+
+  thymeleaf:
+    cache: false
+
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      format_sql: true
