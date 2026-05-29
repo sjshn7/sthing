@@ -13,7 +13,7 @@ import java.util.UUID;
 @Table(name = "test_result")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //접근 권한
-public class TestResult {
+public class TestResultEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //auto_increment
@@ -55,7 +55,7 @@ public class TestResult {
 
     // 결과에서 받아야 하는 값
     @Builder
-    public TestResult(String mbti, String description) {
+    public TestResultEntity(String mbti, String description) {
         this.mbti = mbti;
         this.description = description;
     }

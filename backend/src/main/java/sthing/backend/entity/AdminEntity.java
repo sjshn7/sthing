@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table (name = "admin")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //접근 권한
-public class Admin {
+public class AdminEntity {
 
     @Id
     @Column (nullable = false, unique = true)
@@ -36,7 +36,7 @@ public class Admin {
     }
 
     @Builder
-    public Admin(String adminId, String name, String pw) {
+    public AdminEntity(String adminId, String name, String pw) {
         this.adminId = adminId;
         this.name = name;
         this.pw = pw;
