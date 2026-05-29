@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Table (name = "admin")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //접근 권한
-public class AdminEntity {
+public class AdminEntity { //관리자
 
     @Id
     @Column (nullable = false, unique = true)

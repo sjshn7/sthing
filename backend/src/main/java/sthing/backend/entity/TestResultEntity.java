@@ -21,7 +21,7 @@ public class TestResultEntity {
 
     // 결과 공유 링크용 uuid
     @Column(nullable = false, unique = true, updatable = false)
-    private String sharedId;
+    private String shareId;
 
     // 테스트 결과
     @Column(nullable = false, length = 4)
@@ -49,7 +49,7 @@ public class TestResultEntity {
 
     @PrePersist
     protected void onCreate() {
-        this.sharedId = UUID.randomUUID().toString();
+        this.shareId = UUID.randomUUID().toString();
         this.createdAt = LocalDateTime.now();
     }
 
