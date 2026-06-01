@@ -5,7 +5,7 @@ import { mbtiCharacters } from '../data/characters'
 export default function ResultPage() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  const { mbti, description } = state ?? {
+  const { mbti, description, shareId } = state ?? {
     mbti: 'ISFP',
     description: '조용하지만 누구보다 강한 내면을 가진 당신은, 말보다 행동으로 마음을 전하는 사람입니다. 혼자만의 시간을 소중히 여기면서도, 진심으로 아끼는 사람을 위해서라면 무엇이든 할 수 있는 용기를 지니고 있어요.',
   }
@@ -20,8 +20,12 @@ export default function ResultPage() {
     }
   }, [])
 
+  const shareUrl = shareId
+    ? `${window.location.origin}/share/${shareId}`
+    : window.location.origin
+
   function handleCopyLink() {
-    navigator.clipboard.writeText(window.location.origin).then(() => {
+    navigator.clipboard.writeText(shareUrl).then(() => {
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     })
@@ -35,7 +39,7 @@ export default function ResultPage() {
         title: `나의 기묘한 이야기 캐릭터는 ${character?.name}!`,
         description: '당신의 캐릭터는 누구일까요?',
         imageUrl: `${window.location.origin}/og-image.png`,
-        link: { mobileWebUrl: window.location.origin, webUrl: window.location.origin },
+        link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
       },
       buttons: [{ title: '나도 해보기', link: { mobileWebUrl: window.location.origin, webUrl: window.location.origin } }],
     })
@@ -44,7 +48,7 @@ export default function ResultPage() {
   function handleTwitterShare() {
     const text = `나의 기묘한 이야기 캐릭터는 ${character?.name}!\n당신의 캐릭터는 누구일까요?`
     window.open(
-      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.origin)}`,
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`,
       '_blank',
     )
   }
