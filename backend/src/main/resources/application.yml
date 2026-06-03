@@ -17,3 +17,7 @@ spring:
     hibernate:
       ddl-auto: update
       format_sql: true
+
+  jwt:
+    secret: ${JWT_SECRET:sthing-secret-key-must-be-at-least-256-bits-long!!}
+    expiration: 86400000  # 24시간 (ms)

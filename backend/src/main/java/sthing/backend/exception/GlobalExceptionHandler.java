@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice // 모든 controller를 감시하는 전역 처리기. 어디서든 예외가 터지면 여기로 온다.
 public class GlobalExceptionHandler {
 
+    // 401 - 인증 실패
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleInvalidCredentials(InvalidCredentialsException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
     // 404 - 리소스 없음
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<String> handlerNotFound(ResourceNotFoundException e) {
