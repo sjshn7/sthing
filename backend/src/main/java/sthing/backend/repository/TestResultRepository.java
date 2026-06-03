@@ -1,10 +1,13 @@
 package sthing.backend.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import sthing.backend.entity.TestResultEntity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +27,20 @@ public interface TestResultRepository extends JpaRepository<TestResultEntity, Lo
     List<Object[]> countGroupByMbti();
 
     // 일별 추이 (최근 7일): 날짜별로 그룹핑
-    @Query("SELECT CAST(r.createdAt AS date), COUNT(r) FROM TestResultEntity r WHERE r.createdAt >= :from AND r.deleted = false GROUP BY CAST(r.createdAt AS date) ORDER BY CAST(r.createdAt AS date) ASC")
+    @Query("SELECT CAST(r.createdAt AS date), COUNT(r) FROM TestResultEntity r " +
+            "WHERE r.createdAt >= :from AND r.deleted = false " +
+            "GROUP BY CAST(r.createdAt AS date) ORDER BY CAST(r.createdAt AS date) ASC")
     List<Object[]> countGroupByDate(@Param("from")LocalDateTime from);
+
+    // MBTI, 날짜 필터가 없으면(null) 해당 조건을 무시하고 전체 조회
+    // Pageable로 페이지 번호, 크기, 정렬 정보를 받음
+    @Query("SELECT r FROM TestResultEntity r WHERE r.deleted = false " +
+            "AND (:mbti IS NULL OR r.mbti = :mbti) " +
+            "AND (:date IS NULL OR CAST(r.createdAt AS date) = :date) " +
+            "ORDER BY r.createdAt DESC")
+    Page<TestResultEntity> findAllWithFilter(
+            @Param("mbti") String mbti,
+            @Param("date")LocalDate date,
+            Pageable pageable
+            );
 }

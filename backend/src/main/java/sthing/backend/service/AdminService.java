@@ -1,12 +1,12 @@
 package sthing.backend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import sthing.backend.dto.AdminLoginRequestDTO;
-import sthing.backend.dto.AdminLoginResponseDTO;
-import sthing.backend.dto.DashboardResponseDTO;
+import sthing.backend.dto.*;
 import sthing.backend.entity.AdminEntity;
 import sthing.backend.exception.InvalidCredentialsException;
 import sthing.backend.repository.AdminRepository;
@@ -64,5 +64,19 @@ public class AdminService {
         }
 
         return new DashboardResponseDTO(totalCount, todayCount, mbtiDistribution, dailyTrend);
+    }
+
+    // 결과 목록 조회
+    public PageResponseDTO<TestResultListItemDTO> getResults(int page, String mbti, LocalDate date) {
+        // 한 페이지에 20개씩, 0부터 시작
+        Pageable pageable = PageRequest.of(page, 20);
+
+        // entity page -> dto page로 변환 후 PageResponseDTO 감싸서 반환
+        Page<TestResultListItemDTO> result = testResultRepository
+                .findAllWithFilter(mbti, date, pageable)
+                .map(TestResultListItemDTO::new); //각 entity를 dto로 변환
+
+        return new PageResponseDTO<>(result);
+
     }
 }
