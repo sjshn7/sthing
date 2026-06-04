@@ -39,9 +39,14 @@ export default function AdminDashboardPage() {
 
       {/* 헤더 */}
       <header className="bg-white border-b border-slate-200 py-4 flex items-center justify-between" style={{ paddingLeft: '10px', paddingRight: '10px' }}>
-        <div>
-          <h1 className="text-base font-bold text-slate-800">관리자 대시보드</h1>
-          <p className="text-xs text-slate-500">기묘한 이야기 성격 테스트</p>
+        <div className="flex items-center gap-6">
+          <div>
+            <h1 className="text-base font-bold text-slate-800">관리자 대시보드</h1>
+            <p className="text-xs text-slate-500">기묘한 이야기 성격 테스트</p>
+          </div>
+          <button onClick={() => navigate('/admin/results')} className="text-sm text-slate-500 hover:text-slate-800 transition-colors">
+            결과 목록 →
+          </button>
         </div>
         <button
           onClick={handleLogout}

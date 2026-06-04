@@ -6,6 +6,7 @@ import ResultPage from './pages/ResultPage'
 import SharePage from './pages/SharePage'
 import AdminLoginPage from './pages/admin/AdminLoginPage'
 import AdminDashboardPage from './pages/admin/AdminDashboardPage'
+import AdminResultsPage from './pages/admin/AdminResultsPage'
 import ProtectedRoute from './components/ProtectedRoute'
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/share/:shareId" element={<SharePage />} />
         <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/admin/dashboard" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
+        <Route path="/admin/results" element={<ProtectedRoute><AdminResultsPage /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   )
