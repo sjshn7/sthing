@@ -5,6 +5,9 @@ frontend/dist/
 # Backend
 backend/src/main/resources/application-secret.properties
 
+# Claude
+**/CLAUDE.md
+
 # IDE
 .idea/
 
