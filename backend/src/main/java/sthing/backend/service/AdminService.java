@@ -6,9 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sthing.backend.dto.*;
 import sthing.backend.entity.AdminEntity;
+import sthing.backend.entity.TestResultEntity;
 import sthing.backend.exception.InvalidCredentialsException;
+import sthing.backend.exception.ResourceNotFoundException;
 import sthing.backend.repository.AdminRepository;
 import sthing.backend.repository.TestResultRepository;
 import sthing.backend.security.JwtTokenProvider;
@@ -78,5 +81,14 @@ public class AdminService {
 
         return new PageResponseDTO<>(result);
 
+    }
+
+    // soft delete
+    @Transactional
+    public void deleteResult(Long id) {
+        // 삭제되지 않은 항목만 조회. 없거나 이미 삭제됐으면 404
+        TestResultEntity entity = testResultRepository.findByIdAndDeletedFalse(id)
+                .orElseThrow(() -> new ResourceNotFoundException("결과를 찾을 수 없습니다."));
+        entity.softDelete(); // deleted = true, deletedAt = now()
     }
 }

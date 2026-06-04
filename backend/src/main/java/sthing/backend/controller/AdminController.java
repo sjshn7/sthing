@@ -35,4 +35,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getResults(page, mbti, date));
 
     }
+
+    // soft delete - 삭제 성공 시 반환할 데이터가 없으므로 204(no content) 반환
+    @DeleteMapping("/results/{id}")
+    public ResponseEntity<Void> deleteResult(@PathVariable Long id) {
+        adminService.deleteResult(id);
+        return ResponseEntity.noContent().build();
+    }
 }

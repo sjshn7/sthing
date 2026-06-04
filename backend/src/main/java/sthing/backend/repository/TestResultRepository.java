@@ -16,6 +16,9 @@ public interface TestResultRepository extends JpaRepository<TestResultEntity, Lo
     // 삭제되지 않은 shareId 조회
     Optional<TestResultEntity> findByShareIdAndDeletedFalse(String shareId);
 
+    // soft delete - id로 조회(이미 삭제된 항목은 찾지 않음)
+    Optional<TestResultEntity> findByIdAndDeletedFalse(Long id);
+
     // 삭제되지 않은 전체 수
     long countByDeletedFalse();
 
