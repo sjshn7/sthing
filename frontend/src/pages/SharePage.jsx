@@ -7,6 +7,7 @@ export default function SharePage() {
   const navigate = useNavigate()
   const [result, setResult] = useState(null)
   const [error, setError] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/results/${shareId}`)
@@ -18,7 +19,44 @@ export default function SharePage() {
       .catch(() => setError(true))
   }, [shareId])
 
+  useEffect(() => {
+    const key = import.meta.env.VITE_KAKAO_APP_KEY
+    if (key && window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init(key)
+    }
+  }, [])
+
   const character = result?.mbti ? mbtiCharacters[result.mbti] : null
+  const shareUrl = window.location.href
+
+  function handleCopyLink() {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  function handleKakaoShare() {
+    if (!window.Kakao?.Share) return
+    window.Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: `이 사람의 기묘한 이야기 캐릭터는 ${character?.name}!`,
+        description: '당신의 캐릭터는 누구일까요?',
+        imageUrl: `${window.location.origin}/og-image.png`,
+        link: { mobileWebUrl: shareUrl, webUrl: shareUrl },
+      },
+      buttons: [{ title: '나도 해보기', link: { mobileWebUrl: window.location.origin, webUrl: window.location.origin } }],
+    })
+  }
+
+  function handleTwitterShare() {
+    const text = `이 사람의 기묘한 이야기 캐릭터는 ${character?.name}!\n당신의 캐릭터는 누구일까요?`
+    window.open(
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`,
+      '_blank',
+    )
+  }
 
   return (
     <div className="min-h-screen bg-[#080808] flex flex-col items-center justify-center relative overflow-x-clip py-10">
@@ -59,6 +97,37 @@ export default function SharePage() {
                 {result.description}
               </p>
             )}
+
+            {/* 공유 버튼 */}
+            <div className="flex gap-5">
+              <button onClick={handleCopyLink} className="flex flex-col items-center gap-2 group">
+                <div className="w-12 h-12 rounded-full border border-gray-500 flex items-center justify-center group-hover:border-gray-400 transition-all duration-200">
+                  {copied
+                    ? <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#e90101]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                    : <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-400 group-hover:text-gray-200 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
+                  }
+                </div>
+                <span className="text-gray-500 text-xs">{copied ? '복사완료' : '링크 복사'}</span>
+              </button>
+
+              <button onClick={handleKakaoShare} className="flex flex-col items-center gap-2 group">
+                <div className="w-12 h-12 rounded-full border border-gray-500 flex items-center justify-center group-hover:border-gray-400 transition-all duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-gray-400 group-hover:text-gray-200 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.568 1.508 4.83 3.8 6.2l-.97 3.6 4.2-2.77c.94.18 1.93.27 2.97.27 5.523 0 10-3.477 10-7.5S17.523 3 12 3z" />
+                  </svg>
+                </div>
+                <span className="text-gray-500 text-xs">카카오톡</span>
+              </button>
+
+              <button onClick={handleTwitterShare} className="flex flex-col items-center gap-2 group">
+                <div className="w-12 h-12 rounded-full border border-gray-500 flex items-center justify-center group-hover:border-gray-400 transition-all duration-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-400 group-hover:text-gray-200 transition-colors" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </div>
+                <span className="text-gray-500 text-xs">X(트위터)</span>
+              </button>
+            </div>
           </>
         )}
 
