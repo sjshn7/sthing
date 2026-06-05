@@ -1,8 +1,17 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import stLogo from '../assets/st-logo.png'
 
 export default function IntroPage() {
   const navigate = useNavigate()
+  const [count, setCount] = useState(null)
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/results/count')
+      .then(res => res.json())
+      .then(data => setCount(data.count))
+      .catch(() => {})
+  }, [])
 
   return (
     <div className="min-h-screen bg-[#080808] flex flex-col items-center justify-center relative overflow-hidden">
@@ -38,9 +47,11 @@ export default function IntroPage() {
         </div>
 
         {/* 참여자 수 */}
-        <p className="text-gray-400 text-sm mb-8 -translate-y-[20px]">
-          <span className="text-[#e90101] font-medium">12,847</span>명이 이미 참여했어요
-        </p>
+        {count !== null && (
+          <p className="text-gray-400 text-sm mb-8 -translate-y-[20px]">
+            <span className="text-[#e90101] font-medium">{count.toLocaleString()}</span>명이 이미 참여했어요
+          </p>
+        )}
 
         {/* 시작 버튼 */}
         <button
