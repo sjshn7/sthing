@@ -37,4 +37,9 @@ public class TestResultService {
         entity.incrementViewCount();
         return new TestResultResponseDTO(entity);
     }
+
+    // 총 참여자 수 조회(soft delete 제외)
+    public long getCount() {
+        return testResultRepository.countByDeletedFalse();
+    }
 }

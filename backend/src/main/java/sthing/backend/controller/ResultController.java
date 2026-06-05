@@ -8,6 +8,8 @@ import sthing.backend.dto.TestResultResponseDTO;
 import sthing.backend.dto.TestResultSaveRequestDTO;
 import sthing.backend.service.TestResultService;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/results")
@@ -25,5 +27,11 @@ public class ResultController {
     @GetMapping("/{shareId}")
     public ResponseEntity<TestResultResponseDTO> findByShareId(@PathVariable String shareId) {
         return ResponseEntity.ok(testResultService.findByShareId(shareId));
+    }
+
+    // 총 참여자 수 조회 (200)
+    @GetMapping("/count")
+    public ResponseEntity<Map<String, Long>> getCount() {
+        return ResponseEntity.ok(Map.of("count", testResultService.getCount()));
     }
 }
