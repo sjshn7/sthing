@@ -27,8 +27,8 @@ public class TestResultService {
         return new TestResultResponseDTO(testResultRepository.save(entity));
     }
 
-    // 공유 링크로 조회. shareId로 결과 조회 및 조회수 증가
-    // 테스트 후 공유 링크 클릭 -> findByShareId() 호출 -> 결과 조회 + 조회수 증가 -> 결과 페이지
+    // 공유 링크로 조회. shareId로 결과 조회 및 링크접속수 증가
+    // 테스트 후 공유 링크 클릭 -> findByShareId() 호출 -> 결과 조회 + 링크접속수 증가 -> 결과 페이지
     // entity -> responseDTO
     @Transactional
     public TestResultResponseDTO findByShareId(String shareId) {

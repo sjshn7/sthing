@@ -22,8 +22,15 @@ public interface TestResultRepository extends JpaRepository<TestResultEntity, Lo
     // 삭제되지 않은 전체 수
     long countByDeletedFalse();
 
-    // 오늘 가입자 수: createdAt이 오늘 00:00 이후이고 deleted = false
+    // 오늘 참여자 수: createdAt이 오늘 00:00 이후이고 deleted = false
     long countByCreatedAtAfterAndDeletedFalse(LocalDateTime startOfDay);
+
+    // 오늘 참여자 수 (삭제된 항목 포함)
+    long countByCreatedAtAfter(LocalDateTime startOfDay);
+
+    // 링크접속수 TOP 5: MBTI별 합산 접속 수 상위 5개
+    @Query("SELECT r.mbti, SUM(r.viewCount) FROM TestResultEntity r WHERE r.deleted = false GROUP BY r.mbti HAVING SUM(r.viewCount) > 0 ORDER BY SUM(r.viewCount) DESC, r.mbti ASC")
+    List<Object[]> findTop5MbtiByLinkAccess(Pageable pageable);
 
     // MBTI별 분포: MBTI 커럼으로 그룹핑해서 [mbti, count] 형태로 반환
     @Query("SELECT r.mbti, COUNT(r) FROM TestResultEntity r WHERE r.deleted = false GROUP BY r.mbti")

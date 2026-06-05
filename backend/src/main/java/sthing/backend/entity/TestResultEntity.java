@@ -31,7 +31,7 @@ public class TestResultEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    // 공유 링크 클릭 수
+    // 링크 접속 수 (공유 링크 클릭 시 증가)
     @Column(nullable = false)
     private int viewCount;
 

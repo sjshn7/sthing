@@ -58,7 +58,7 @@ class TestResultServiceTest {
     }
 
     @Test
-    @DisplayName("shareId로 조회 성공 - 조회수 1 증가")
+    @DisplayName("shareId로 조회 성공 - 링크접속수 1 증가")
     void findByShareId_success() {
         // given
         TestResultEntity entity = TestResultEntity.builder()
@@ -74,7 +74,7 @@ class TestResultServiceTest {
 
         // then
         assertThat(result.getMbti()).isEqualTo("INFP");
-        assertThat(result.getViewCount()).isEqualTo(1); //조회시 incrementViewCount()가 호출돼 viewCount가 0 -> 1로 증가했는지 확인
+        assertThat(result.getViewCount()).isEqualTo(1); // 링크 접속 시 incrementViewCount()가 호출돼 0 -> 1로 증가했는지 확인
     }
 
     @Test

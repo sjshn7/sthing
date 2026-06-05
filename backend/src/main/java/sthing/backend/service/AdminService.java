@@ -51,7 +51,7 @@ public class AdminService {
 
         // 오늘 참여자: 오늘 00:00:00 기준으로 카운트
         LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
-        long todayCount = testResultRepository.countByCreatedAtAfterAndDeletedFalse(startOfToday);
+        long todayCount = testResultRepository.countByCreatedAtAfter(startOfToday);
 
         // MBTI별 분포: Object[] -> Map 변환
         Map<String, Long> mbtiDistribution = new LinkedHashMap<>();
@@ -66,7 +66,13 @@ public class AdminService {
             dailyTrend.put(row[0].toString(), (Long) row[1]);
         }
 
-        return new DashboardResponseDTO(totalCount, todayCount, mbtiDistribution, dailyTrend);
+        // 링크접속수 TOP 5: MBTI별 합산 접속 수 상위 5개
+        Map<String, Long> topLinkAccess = new LinkedHashMap<>();
+        for (Object[] row : testResultRepository.findTop5MbtiByLinkAccess(PageRequest.of(0, 5))) {
+            topLinkAccess.put((String) row[0], (Long) row[1]);
+        }
+
+        return new DashboardResponseDTO(totalCount, todayCount, mbtiDistribution, dailyTrend, topLinkAccess);
     }
 
     // 결과 목록 조회
