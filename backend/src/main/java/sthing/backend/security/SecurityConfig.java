@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/admin/login").permitAll() //로그인은 누구나
+                        .requestMatchers("/api/admin/login", "/swagger-ui/**", "/v3/api-docs/**").permitAll() //로그인은 누구나
                         .requestMatchers("/api/admin/**").authenticated() //나머지 관리자 API는 인증 필요
                         .anyRequest().permitAll() //그 외 (일반 API)는 허용
                 )
