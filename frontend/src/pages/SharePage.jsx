@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { mbtiCharacters } from '../data/characters'
 
@@ -8,8 +8,12 @@ export default function SharePage() {
   const [result, setResult] = useState(null)
   const [error, setError] = useState(false)
   const [copied, setCopied] = useState(false)
+  // StrictMode에서 useEffect가 두 번 실행되는 것을 방지 (링크접속수 중복 증가 방지)
+  const hasFetched = useRef(false)
 
   useEffect(() => {
+    if (hasFetched.current) return
+    hasFetched.current = true
     fetch(`http://localhost:8080/api/results/${shareId}`)
       .then(res => {
         if (!res.ok) throw new Error()

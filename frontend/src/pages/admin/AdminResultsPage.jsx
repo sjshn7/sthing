@@ -18,6 +18,11 @@ export default function AdminResultsPage() {
     setTimeout(() => setToast(null), 2500)
   }
 
+  useEffect(() => {
+    document.body.classList.add('admin-page')
+    return () => document.body.classList.remove('admin-page')
+  }, [])
+
   function buildUrl() {
     const params = new URLSearchParams()
     params.set('page', page)
@@ -66,7 +71,7 @@ export default function AdminResultsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-100">
 
       {/* 토스트 */}
       {toast && (
@@ -84,7 +89,7 @@ export default function AdminResultsPage() {
               <h1 className="text-base font-bold text-slate-800">결과 목록</h1>
               <p className="text-xs text-slate-500">기묘한 이야기 성격 테스트</p>
             </div>
-            <button onClick={() => navigate('/admin/dashboard')} className="text-sm text-slate-500 hover:text-slate-800 transition-colors">
+            <button onClick={() => navigate('/admin/dashboard')} className="text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors">
               ← 대시보드
             </button>
           </div>
@@ -124,7 +129,9 @@ export default function AdminResultsPage() {
           )}
 
           {data && (
-            <span className="ml-auto text-sm text-slate-500">총 {data.totalElements.toLocaleString()}개</span>
+            <span className="ml-auto text-sm text-slate-500">
+              총 {data.totalElements.toLocaleString()}개 · 현재 페이지 {data.content.length}개
+            </span>
           )}
         </div>
 
@@ -136,7 +143,7 @@ export default function AdminResultsPage() {
                 <th className="text-left px-6 py-3 text-slate-500 font-medium w-16">ID</th>
                 <th className="text-left px-6 py-3 text-slate-500 font-medium w-20">MBTI</th>
                 <th className="text-left px-6 py-3 text-slate-500 font-medium">설명</th>
-                <th className="text-left px-6 py-3 text-slate-500 font-medium w-20">조회수</th>
+                <th className="text-left px-6 py-3 text-slate-500 font-medium w-20">링크접속수</th>
                 <th className="text-left px-6 py-3 text-slate-500 font-medium w-40">작성일</th>
                 <th className="text-left px-6 py-3 text-slate-500 font-medium w-16"></th>
               </tr>

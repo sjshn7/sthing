@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getToken, removeToken } from '../../utils/auth'
+import { mbtiCharacters } from '../../data/characters'
 
 export default function AdminDashboardPage() {
   const navigate = useNavigate()
@@ -23,6 +24,11 @@ export default function AdminDashboardPage() {
       .catch(() => setError(true))
   }, [])
 
+  useEffect(() => {
+    document.body.classList.add('admin-page')
+    return () => document.body.classList.remove('admin-page')
+  }, [])
+
   function handleLogout() {
     removeToken()
     navigate('/admin/login')
@@ -35,7 +41,7 @@ export default function AdminDashboardPage() {
   const trendMax = trendEntries.length > 0 ? Math.max(...trendEntries.map(([, v]) => v)) : 1
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-100">
 
       {/* 헤더 */}
       <header className="bg-white border-b border-slate-200 py-4 flex items-center justify-between" style={{ paddingLeft: '10px', paddingRight: '10px' }}>
@@ -44,7 +50,7 @@ export default function AdminDashboardPage() {
             <h1 className="text-base font-bold text-slate-800">관리자 대시보드</h1>
             <p className="text-xs text-slate-500">기묘한 이야기 성격 테스트</p>
           </div>
-          <button onClick={() => navigate('/admin/results')} className="text-sm text-slate-500 hover:text-slate-800 transition-colors">
+          <button onClick={() => navigate('/admin/results')} className="text-sm font-bold text-slate-500 hover:text-slate-800 transition-colors">
             결과 목록 →
           </button>
         </div>
@@ -56,80 +62,115 @@ export default function AdminDashboardPage() {
         </button>
       </header>
 
-      <main className="max-w-screen-2xl mx-auto w-full px-20 py-8 flex flex-col gap-6">
+      <main className="flex flex-col items-center p-3">
+        <div className="w-full max-w-7xl flex flex-col gap-6">
 
-        {error && (
-          <p className="text-sm text-rose-500">데이터를 불러오지 못했습니다.</p>
-        )}
+          {error && (
+            <p className="text-sm text-rose-500">데이터를 불러오지 못했습니다.</p>
+          )}
 
-        {!data && !error && (
-          <p className="text-sm text-slate-500">불러오는 중...</p>
-        )}
+          {!data && !error && (
+            <p className="text-sm text-slate-500">불러오는 중...</p>
+          )}
 
-        {data && (
-          <>
-            {/* 요약 카드 */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white rounded-2xl border border-slate-200 p-6">
-                <p className="text-sm text-slate-500">총 참여자</p>
-                <p className="text-4xl font-bold text-slate-800 mt-1">{data.totalCount.toLocaleString()}<span className="text-lg font-normal text-slate-500 ml-1">명</span></p>
+          {data && (
+            <>
+              {/* 요약 카드 */}
+              <div className="border border-slate-200 rounded-2xl p-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white rounded-xl p-8">
+                    <p className="text-sm text-slate-500">총 참여자</p>
+                    <p className="text-4xl font-bold text-slate-800 mt-1">{data.totalCount.toLocaleString()}<span className="text-lg font-normal text-slate-500 ml-1">명</span></p>
+                  </div>
+                  <div className="bg-white rounded-xl p-8">
+                    <p className="text-sm text-slate-500">오늘 참여자</p>
+                    <p className="text-4xl font-bold text-rose-500 mt-1">{data.todayCount.toLocaleString()}<span className="text-lg font-normal text-slate-500 ml-1">명</span></p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white rounded-2xl border border-slate-200 p-6">
-                <p className="text-sm text-slate-500">오늘 참여자</p>
-                <p className="text-4xl font-bold text-rose-500 mt-1">{data.todayCount.toLocaleString()}<span className="text-lg font-normal text-slate-500 ml-1">명</span></p>
-              </div>
-            </div>
 
-            {/* MBTI 분포 */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-6">
-              <h2 className="text-sm font-semibold text-slate-700 mb-5">MBTI 분포</h2>
-              {mbtiEntries.length === 0
-                ? <p className="text-sm text-slate-500">데이터 없음</p>
-                : (
-                  <div className="flex flex-col gap-3">
-                    {mbtiEntries.map(([mbti, count]) => (
-                      <div key={mbti} className="flex items-center gap-3">
-                        <span className="text-sm font-mono text-slate-600 w-12">{mbti}</span>
-                        <div className="flex-1 bg-slate-100 rounded-full h-2">
-                          <div
-                            className="bg-blue-400 h-2 rounded-full transition-all duration-500"
-                            style={{ width: `${(count / mbtiMax) * 100}%` }}
-                          />
-                        </div>
-                        <span className="text-sm text-slate-500 w-8 text-right">{count}</span>
+              {/* MBTI 분포 */}
+              <div className="border border-slate-200 rounded-2xl p-6">
+                <div className="bg-white rounded-xl p-6">
+                  <h2 className="text-sm font-semibold text-slate-700 mb-5">MBTI 분포</h2>
+                  {mbtiEntries.length === 0
+                    ? <p className="text-sm text-slate-500">데이터 없음</p>
+                    : (
+                      <div className="flex flex-col gap-3">
+                        {mbtiEntries.map(([mbti, count]) => (
+                          <div key={mbti} className="flex items-center gap-3">
+                            <span className="text-sm font-mono text-slate-600 w-24">{mbti} <span className="text-slate-400">({mbtiCharacters[mbti]?.name})</span></span>
+                            <div className="flex-1 bg-slate-100 rounded-full h-2">
+                              <div
+                                className="bg-blue-400 h-2 rounded-full transition-all duration-500"
+                                style={{ width: `${(count / mbtiMax) * 100}%` }}
+                              />
+                            </div>
+                            <span className="text-sm text-slate-500 w-12 text-right">{count}명</span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )
+                  }
+                </div>
+              </div>
+
+              {/* 링크접속수 TOP 5 */}
+              {Object.keys(data.topLinkAccess).length > 0 && (() => {
+                const topEntries = Object.entries(data.topLinkAccess)
+                const topMax = topEntries[0][1]
+                return (
+                  <div className="border border-slate-200 rounded-2xl p-6">
+                    <div className="bg-white rounded-xl p-6">
+                      <h2 className="text-sm font-semibold text-slate-700 mb-5">링크접속수 TOP 5 (MBTI별)</h2>
+                      <div className="flex flex-col gap-3">
+                        {topEntries.map(([mbti, count]) => (
+                          <div key={mbti} className="flex items-center gap-3">
+                            <span className="text-sm font-mono text-slate-600 w-24">{mbti} <span className="text-slate-400">({mbtiCharacters[mbti]?.name})</span></span>
+                            <div className="flex-1 bg-slate-100 rounded-full h-2">
+                              <div
+                                className="bg-rose-400 h-2 rounded-full transition-all duration-500"
+                                style={{ width: `${(count / topMax) * 100}%` }}
+                              />
+                            </div>
+                            <span className="text-sm text-slate-500 w-12 text-right">{count}회</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )
-              }
-            </div>
+              })()}
 
-            {/* 일별 추이 */}
-            <div className="bg-white rounded-2xl border border-slate-200 p-6">
-              <h2 className="text-sm font-semibold text-slate-700 mb-5">일별 추이 (최근 7일)</h2>
-              {trendEntries.length === 0
-                ? <p className="text-sm text-slate-500">데이터 없음</p>
-                : (
-                  <div className="flex flex-col gap-3">
-                    {trendEntries.map(([date, count]) => (
-                      <div key={date} className="flex items-center gap-3">
-                        <span className="text-sm text-slate-500 w-24">{date}</span>
-                        <div className="flex-1 bg-slate-100 rounded-full h-2">
-                          <div
-                            className="bg-emerald-400 h-2 rounded-full transition-all duration-500"
-                            style={{ width: `${(count / trendMax) * 100}%` }}
-                          />
-                        </div>
-                        <span className="text-sm text-slate-500 w-8 text-right">{count}</span>
+              {/* 일별 추이 */}
+              <div className="border border-slate-200 rounded-2xl p-6">
+                <div className="bg-white rounded-xl p-6">
+                  <h2 className="text-sm font-semibold text-slate-700 mb-5">일별 추이 (최근 7일)</h2>
+                  {trendEntries.length === 0
+                    ? <p className="text-sm text-slate-500">데이터 없음</p>
+                    : (
+                      <div className="flex flex-col gap-3">
+                        {trendEntries.map(([date, count]) => (
+                          <div key={date} className="flex items-center gap-3">
+                            <span className="text-sm text-slate-500 w-24">{date}</span>
+                            <div className="flex-1 bg-slate-100 rounded-full h-2">
+                              <div
+                                className="bg-emerald-400 h-2 rounded-full transition-all duration-500"
+                                style={{ width: `${(count / trendMax) * 100}%` }}
+                              />
+                            </div>
+                            <span className="text-sm text-slate-500 w-12 text-right">{count}명</span>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                )
-              }
-            </div>
-          </>
-        )}
+                    )
+                  }
+                </div>
+              </div>
+            </>
+          )}
 
+        </div>
       </main>
     </div>
   )

@@ -30,3 +30,11 @@ button {
 ::-webkit-scrollbar-thumb {
   background: #3b0000;
 }
+
+/* 관리자 페이지 스크롤바 */
+body.admin-page::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+body.admin-page::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}

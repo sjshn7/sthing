@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import stLogo from '../assets/st-logo.png'
 import { calculateMbti, mbtiDescriptions } from '../utils/mbti'
 
 const messages = [
@@ -15,8 +14,12 @@ export default function LoadingPage() {
   const navigate = useNavigate()
   const { state } = useLocation()
   const [msgIdx, setMsgIdx] = useState(0)
+  // StrictMode에서 useEffect가 두 번 실행되는 것을 방지
+  const hasSaved = useRef(false)
 
   useEffect(() => {
+    if (hasSaved.current) return
+    hasSaved.current = true
     const msgTimer = setInterval(() => {
       setMsgIdx(prev => (prev + 1) % messages.length)
     }, 1000)
@@ -60,13 +63,6 @@ export default function LoadingPage() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#0d0000_100%)] pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center gap-10 px-8">
-
-        {/* 로고 */}
-        <img
-          src={stLogo}
-          alt="Stranger Things"
-          className="w-full max-w-[280px] object-contain opacity-80"
-        />
 
         {/* 전구 불빛 */}
         <div className="flex gap-4">
