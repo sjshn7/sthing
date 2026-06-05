@@ -35,6 +35,16 @@ public interface TestResultRepository extends JpaRepository<TestResultEntity, Lo
             "GROUP BY CAST(r.createdAt AS date) ORDER BY CAST(r.createdAt AS date) ASC")
     List<Object[]> countGroupByDate(@Param("from")LocalDateTime from);
 
+    // MBTI별 분포 (삭제된 항목 포함)
+    @Query("SELECT r.mbti, COUNT(r) FROM TestResultEntity r GROUP BY r.mbti")
+    List<Object[]> countGroupByMbtiAll();
+
+    // 일별 추이 (삭제된 항목 포함)
+    @Query("SELECT CAST(r.createdAt AS date), COUNT(r) FROM TestResultEntity r " +
+            "WHERE r.createdAt >= :from " +
+            "GROUP BY CAST(r.createdAt AS date) ORDER BY CAST(r.createdAt AS date) ASC")
+    List<Object[]> countGroupByDateAll(@Param("from") LocalDateTime from);
+
     // MBTI, 날짜 필터가 없으면(null) 해당 조건을 무시하고 전체 조회
     // Pageable로 페이지 번호, 크기, 정렬 정보를 받음
     @Query("SELECT r FROM TestResultEntity r WHERE r.deleted = false " +

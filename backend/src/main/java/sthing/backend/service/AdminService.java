@@ -47,7 +47,7 @@ public class AdminService {
     // 대시보드
     public DashboardResponseDTO getDashboard() {
         // 총 참여자
-        long totalCount = testResultRepository.countByDeletedFalse();
+        long totalCount = testResultRepository.count();
 
         // 오늘 참여자: 오늘 00:00:00 기준으로 카운트
         LocalDateTime startOfToday = LocalDate.now().atStartOfDay();
@@ -55,14 +55,14 @@ public class AdminService {
 
         // MBTI별 분포: Object[] -> Map 변환
         Map<String, Long> mbtiDistribution = new LinkedHashMap<>();
-        for (Object[] row : testResultRepository.countGroupByMbti()) {
+        for (Object[] row : testResultRepository.countGroupByMbtiAll()) {
             mbtiDistribution.put((String) row[0], (Long) row[1]);
         }
 
         // 일별 추이(최근 7일)
         LocalDateTime sevenDaysAgo = LocalDate.now().minusDays(6).atStartOfDay();
         Map<String, Long> dailyTrend = new LinkedHashMap<>();
-        for (Object[] row : testResultRepository.countGroupByDate(sevenDaysAgo)) {
+        for (Object[] row : testResultRepository.countGroupByDateAll(sevenDaysAgo)) {
             dailyTrend.put(row[0].toString(), (Long) row[1]);
         }
 
