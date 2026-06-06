@@ -97,7 +97,7 @@ export default function SharePage() {
             <div className="w-full h-px bg-gradient-to-r from-transparent via-[#e90101] to-transparent opacity-40" />
 
             {result.description && (
-              <p className="text-gray-300 text-sm leading-7 text-center">
+              <p className="text-gray-300 text-sm leading-7 text-center whitespace-pre-line">
                 {result.description}
               </p>
             )}

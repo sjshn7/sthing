@@ -90,7 +90,7 @@ export default function ResultPage() {
 
         {/* 성격 설명 */}
         {description && (
-          <p className="text-gray-300 text-sm leading-7 text-center">
+          <p className="text-gray-300 text-sm leading-7 text-center whitespace-pre-line">
             {description}
           </p>
         )}
