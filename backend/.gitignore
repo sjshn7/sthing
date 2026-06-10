@@ -38,3 +38,4 @@ out/
 
 ### 보안 및 개인 환경 설정 파일 ###
 application-local.yml
+application.yml
