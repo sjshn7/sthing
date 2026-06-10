@@ -30,7 +30,7 @@ export default function LoadingPage() {
       const mbti = calculateMbti(state.answers)
       const description = mbtiDescriptions[mbti]
 
-      const saveRes = await fetch('http://localhost:8080/api/results', {
+      const saveRes = await fetch(`${import.meta.env.VITE_API_URL}/api/results`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mbti, description }),

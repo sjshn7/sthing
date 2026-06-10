@@ -14,7 +14,7 @@ export default function SharePage() {
   useEffect(() => {
     if (hasFetched.current) return
     hasFetched.current = true
-    fetch(`http://localhost:8080/api/results/${shareId}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/results/${shareId}`)
       .then(res => {
         if (!res.ok) throw new Error()
         return res.json()

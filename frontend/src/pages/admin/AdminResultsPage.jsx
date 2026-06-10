@@ -28,7 +28,7 @@ export default function AdminResultsPage() {
     params.set('page', page)
     if (mbtiFilter) params.set('mbti', mbtiFilter)
     if (dateFilter) params.set('date', dateFilter)
-    return `http://localhost:8080/api/admin/results?${params.toString()}`
+    return `${import.meta.env.VITE_API_URL}/api/admin/results?${params.toString()}`
   }
 
   function fetchResults() {
@@ -48,7 +48,7 @@ export default function AdminResultsPage() {
 
   function handleDelete(id) {
     if (!confirm('정말 삭제하시겠습니까?')) return
-    fetch(`http://localhost:8080/api/admin/results/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/results/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${getToken()}` },
     })

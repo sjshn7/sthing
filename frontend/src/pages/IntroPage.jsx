@@ -7,7 +7,7 @@ export default function IntroPage() {
   const [count, setCount] = useState(null)
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/results/count')
+    fetch(`${import.meta.env.VITE_API_URL}/api/results/count`)
       .then(res => res.json())
       .then(data => setCount(data.count))
       .catch(() => {})
