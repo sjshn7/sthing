@@ -1,16 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { mbtiCharacters } from '../data/characters'
 
 export default function ResultPage() {
   const navigate = useNavigate()
   const { state } = useLocation()
-  const { mbti, description, shareId } = state ?? {
-    mbti: 'ISFP',
-    description: '조용하지만 누구보다 강한 내면을 가진 당신은, 말보다 행동으로 마음을 전하는 사람입니다. 혼자만의 시간을 소중히 여기면서도, 진심으로 아끼는 사람을 위해서라면 무엇이든 할 수 있는 용기를 지니고 있어요.',
-  }
-
-  const character = mbti ? mbtiCharacters[mbti] : null
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
@@ -19,6 +13,11 @@ export default function ResultPage() {
       window.Kakao.init(key)
     }
   }, [])
+
+  if (!state) return <Navigate to="/" replace />
+
+  const { mbti, description, shareId } = state
+  const character = mbti ? mbtiCharacters[mbti] : null
 
   const shareUrl = shareId
     ? `${window.location.origin}/share/${shareId}`
