@@ -39,6 +39,7 @@ Claude Code를 활용해 만든 바이브 코딩 1인 프로젝트입니다.
 ---
 
 ## 아키텍처
+```
 
                         ┌─────────────────────────────────┐
                         │             사용자               │
@@ -87,9 +88,9 @@ src/
 └── utils/
 ├── mbti.js              # MBTI 계산 로직
 └── auth.js              # JWT 토큰 관리
+```
 
-
-
+```
 **Backend**
 src/main/java/sthing/backend/
 ├── controller/              # HTTP 요청/응답
