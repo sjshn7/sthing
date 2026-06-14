@@ -67,6 +67,7 @@ Claude Code를 활용해 만든 바이브 코딩 1인 프로젝트입니다.
 ## 프로젝트 구조
 
 **Frontend**
+```
 src/
 ├── pages/
 │   ├── IntroPage.jsx        # 메인 화면
@@ -99,13 +100,13 @@ src/main/java/sthing/backend/
 ├── exception/               # 전역 예외 처리
 ├── config/                  # CORS, Swagger 설정
 └── security/                # JWT 인증/인가
-
+```
 ---
 
 ## 🔎 화면 구성
 
 **테스트 화면**
-<img width="1170" height="2080" alt="테스트 인트로" src="https://github.com/user-attachments/assets/49a39386-8041-4099-85d5-aee75e46b60c" />
+<img width="1170" height="2080" alt="테스트 인트로" src="https://github.com/user-attachments/assets/49a39386-8041-4099-85d5-aee75e46b60c" width="100" height="150" />
 <img width="1170" height="2080" alt="테스트 화면" src="https://github.com/user-attachments/assets/78f46c42-6035-42bb-938f-4f82a47fa3b0" />
 <img width="1170" height="2080" alt="결과 로딩" src="https://github.com/user-attachments/assets/48028a77-4639-4ebd-901d-6aedcef6c262" />
 <img width="1170" height="2080" alt="테스트 결과" src="https://github.com/user-attachments/assets/322a2ad3-0bbd-439a-9e1d-72ec7925b255" />
