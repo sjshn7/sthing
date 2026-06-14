@@ -106,11 +106,14 @@ src/main/java/sthing/backend/
 ## 🔎 화면 구성
 
 **테스트 화면**
-<img width="585" height="1040" alt="테스트 인트로" src="https://github.com/user-attachments/assets/f772e3b3-ed04-434b-9756-4171bc85b8b9" />
-<img width="585" height="1040" alt="테스트 화면" src="https://github.com/user-attachments/assets/5fe1b98d-8f5d-4e2d-b57b-8a5ff9594c49" />
-<img width="585" height="1040" alt="결과 로딩" src="https://github.com/user-attachments/assets/fffe49d6-7d2b-487b-b2fa-4407ada214d3" />
-<img width="585" height="1040" alt="테스트 결과" src="https://github.com/user-attachments/assets/12190577-48b7-4c82-93d4-9bd95a1361ec" />
+
+<img width="234" height="416" alt="테스트 인트로" src="https://github.com/user-attachments/assets/a9e7b56b-51dc-4833-98e8-f5d968b27e51" />
+<img width="234" height="416" alt="테스트 화면" src="https://github.com/user-attachments/assets/c907e94f-020b-4d24-8f38-5e6bbb45fd31" />
+<img width="234" height="416" alt="결과 로딩" src="https://github.com/user-attachments/assets/9958aa71-02fe-48a2-b288-ba33030fbf85" />
+<img width="234" height="416" alt="테스트 결과" src="https://github.com/user-attachments/assets/80fc3be0-b0f6-4c5d-8e3c-f861c8b8f177" />
+
 
 **관리자 화면**
+
 <img width="1915" height="915" alt="관리자 대시보드" src="https://github.com/user-attachments/assets/8d277e37-3fe2-4370-a5e4-682aaea03224" />
 <img width="1912" height="900" alt="관리자 결과목록" src="https://github.com/user-attachments/assets/66ef07b1-2c6a-4573-b5fb-ba8e5f167d98" />
